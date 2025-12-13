@@ -1,12 +1,14 @@
-import peak
 import trace
+
+import peak
 
 ################################################################################
 ################################## Algorithms ##################################
 ################################################################################
 
-def algorithm1(problem, trace = None):
-    # if it's empty, we're done 
+
+def algorithm1(problem, trace=None):
+    # if it's empty, we're done
     if problem.numRow <= 0 or problem.numCol <= 0:
         return None
 
@@ -35,18 +37,21 @@ def algorithm1(problem, trace = None):
 
     # this is a peak, so return it
     if neighbor == bestLoc:
-        if not trace is None: trace.foundPeak(bestLoc)
+        if not trace is None:
+            trace.foundPeak(bestLoc)
         return bestLoc
-   
+
     # otherwise, figure out which subproblem contains the neighbor, and
     # recurse in that half
     sub = problem.getSubproblemContaining(subproblems, neighbor)
-    if not trace is None: trace.setProblemDimensions(sub)
+    if not trace is None:
+        trace.setProblemDimensions(sub)
     result = algorithm1(sub, trace)
     return problem.getLocationInSelf(sub, result)
 
-def algorithm2(problem, location = (0, 0), trace = None):
-    # if it's empty, we're done 
+
+def algorithm2(problem, location=(0, 0), trace=None):
+    # if it's empty, we're done
     if problem.numRow <= 0 or problem.numCol <= 0:
         return None
 
@@ -54,14 +59,16 @@ def algorithm2(problem, location = (0, 0), trace = None):
 
     if nextLocation == location:
         # there is no better neighbor, so return this peak
-        if not trace is None: trace.foundPeak(location)
+        if not trace is None:
+            trace.foundPeak(location)
         return location
     else:
         # there is a better neighbor, so move to the neighbor and recurse
         return algorithm2(problem, nextLocation, trace)
 
-def algorithm3(problem, bestSeen = None, trace = None):
-    # if it's empty, we're done 
+
+def algorithm3(problem, bestSeen=None, trace=None):
+    # if it's empty, we're done
     if problem.numRow <= 0 or problem.numCol <= 0:
         return None
 
@@ -94,23 +101,27 @@ def algorithm3(problem, bestSeen = None, trace = None):
     # update the best we've seen so far based on this new maximum
     if bestSeen is None or problem.get(neighbor) > problem.get(bestSeen):
         bestSeen = neighbor
-        if not trace is None: trace.setBestSeen(bestSeen)
+        if not trace is None:
+            trace.setBestSeen(bestSeen)
 
     # return if we can't see any better neighbors
     if neighbor == crossLoc:
-        if not trace is None: trace.foundPeak(crossLoc)
+        if not trace is None:
+            trace.foundPeak(crossLoc)
         return crossLoc
 
     # figure out which subproblem contains the largest number we've seen so
     # far, and recurse
     sub = problem.getSubproblemContaining(subproblems, bestSeen)
     newBest = sub.getLocationInSelf(problem, bestSeen)
-    if not trace is None: trace.setProblemDimensions(sub)
+    if not trace is None:
+        trace.setProblemDimensions(sub)
     result = algorithm3(sub, newBest, trace)
     return problem.getLocationInSelf(sub, result)
 
-def algorithm4(problem, bestSeen = None, rowSplit = True, trace = None):
-    # if it's empty, we're done 
+
+def algorithm4(problem, bestSeen=None, rowSplit=True, trace=None):
+    # if it's empty, we're done
     if problem.numRow <= 0 or problem.numCol <= 0:
         return None
 
@@ -153,11 +164,13 @@ def algorithm4(problem, bestSeen = None, rowSplit = True, trace = None):
     # update the best we've seen so far based on this new maximum
     if bestSeen is None or problem.get(neighbor) > problem.get(bestSeen):
         bestSeen = neighbor
-        if not trace is None: trace.setBestSeen(bestSeen)
+        if not trace is None:
+            trace.setBestSeen(bestSeen)
 
     # return when we know we've found a peak
     if neighbor == bestLoc and problem.get(bestLoc) >= problem.get(bestSeen):
-        if not trace is None: trace.foundPeak(bestLoc)
+        if not trace is None:
+            trace.foundPeak(bestLoc)
         return bestLoc
 
     # figure out which subproblem contains the largest number we've seen so
@@ -165,7 +178,8 @@ def algorithm4(problem, bestSeen = None, rowSplit = True, trace = None):
     # on columns
     sub = problem.getSubproblemContaining(subproblems, bestSeen)
     newBest = sub.getLocationInSelf(problem, bestSeen)
-    if not trace is None: trace.setProblemDimensions(sub)
+    if not trace is None:
+        trace.setProblemDimensions(sub)
     result = algorithm4(sub, newBest, not rowSplit, trace)
     return problem.getLocationInSelf(sub, result)
 
@@ -177,7 +191,7 @@ def algorithm4(problem, bestSeen = None, rowSplit = True, trace = None):
 
 def crossProduct(list1, list2):
     """
-    Returns all pairs with one item from the first list and one item from 
+    Returns all pairs with one item from the first list and one item from
     the second list.  (Cartesian product of the two lists.)
 
     The code is equivalent to the following list comprehension:
@@ -188,5 +202,5 @@ def crossProduct(list1, list2):
     answer = []
     for a in list1:
         for b in list2:
-            answer.append ((a, b))
+            answer.append((a, b))
     return answer
