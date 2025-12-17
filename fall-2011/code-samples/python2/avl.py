@@ -1,23 +1,19 @@
 import bst
 
-
 def height(node):
     if node is None:
         return -1
     else:
         return node.height
 
-
 def update_height(node):
     node.height = max(height(node.left), height(node.right)) + 1
 
-
 class AVL(bst.BST):
     """
-    AVL binary search tree implementation.
-    Supports insert, find, and delete-min operations in O(lg n) time.
-    """
-
+AVL binary search tree implementation.
+Supports insert, find, and delete-min operations in O(lg n) time.
+"""
     def left_rotate(self, x):
         y = x.right
         y.parent = x.parent
@@ -79,12 +75,9 @@ class AVL(bst.BST):
     def delete_min(self):
         node, parent = bst.BST.delete_min(self)
         self.rebalance(parent)
-        # raise NotImplemented('AVL.delete_min')
-
+        #raise NotImplemented('AVL.delete_min')
 
 def test(args=None):
     bst.test(args, BSTtype=AVL)
 
-
-if __name__ == "__main__":
-    test()
+if __name__ == '__main__': test()
